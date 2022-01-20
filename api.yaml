@@ -1,0 +1,181 @@
+swagger: "2.0"
+info: 
+  title: "Library Api"
+  version: "1.0.0"
+  description: "A simple express Library API"
+  contact: 
+    email: demo@gmail.com
+  # license:
+  #   name: Apache 2.0
+  #   url: "http://apache.org"
+  servers:
+    url: "http://localhost:3000/"
+    description: "This is my local server"
+    url: "http://company.com/"
+    description: "This is my company server"
+tags: 
+  - name : BOOKS
+    description: Library API
+schemes : [http,https]
+paths : 
+  /books/demourl:
+    get:
+      tags: 
+        - BOOKS
+      summary: "return String"
+      description: "Demo Url for testing that returns string"
+      responses:
+        200: 
+          description: "Success"
+          
+  /books:
+    get : 
+      tags: 
+        - BOOKS
+      summary: "View Books"
+      description: "View all books Data"
+      responses: 
+        200: 
+          description: "Success"
+          schema:
+            $ref: "#/components/schemas/books"
+
+        500: 
+          description: "Internal Server Error"
+        404: 
+          description: "Page Not Found"
+    post:
+      tags:
+        - BOOKS
+      summary: Add book
+      description: 'Add a new book to the Library'
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Book object that needs to be added to the library
+          required: true
+          schema:
+            type: object
+            required: 
+              - bookname
+              - authorname
+              - price
+            properties:
+              bookname:
+                type: string
+                description: "name of the book"
+              authorname:
+                type: string
+                description: "name of the author of the book"
+              price:
+                type: number
+                description: "Price of the Book"
+      responses:
+        '405':
+          description: Invalid
+
+    
+    put:
+      tags:
+        - BOOKS
+      summary: "Update Book"
+      description: "Update Book Details"
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - in : body
+          name : body
+          required: true
+          schema: 
+            $ref: "#/components/schemas/books"
+      responses:
+        200: 
+          description: "Success"
+          
+
+
+
+  
+  /books/{id}:
+    get:
+      tags: 
+        - BOOKS
+      summary: "Get Book By ID"
+      description: "Get Book By ID"
+      parameters: 
+        - name : "id"
+          in: "path"
+          required: true
+          schema: 
+            type: integer
+      responses:
+        200: 
+          description: "Success"
+          schema:
+            $ref: "#/components/schemas/books"
+        500: 
+          description: "Internal Server Error"
+        404: 
+          description: "Page Not Found"
+    
+    delete:
+      tags: 
+        - BOOKS
+      summary: "Delete Book"
+      description: "Delete book By Id"
+      parameters: 
+        - name : id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200: 
+          description: "Success"
+          schema:
+            type: integer
+
+components:
+  schemas:
+    books:
+      type: object
+      required: 
+        - bookname
+        - authorname
+        - price
+      properties:
+        id:
+          type: integer
+          description: "Auto Generated unique Id of the book"
+        bookname:
+          type: string
+          description: "name of the book"
+        authorname:
+          type: string
+          description: "name of the author of the book"
+        price:
+          type: number
+          description: "Price of the Book"
+
+
+
+
+  
+          
+
+
+
+
+
+
+
